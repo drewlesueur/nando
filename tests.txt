@@ -1,0 +1,53 @@
+testing simple nand
+0 0 nand
+1
+
+testing many operations at once
+  0 0 nand
+  0 1 nand
+  1 0 nand
+  1 1 nand
+[1, 1, 1, 0]
+
+
+wiring
+  0 0 nand a # a is now 1
+  0 a nand   # 0 and 1 nanded is 1
+1
+
+mark something as output
+  out a
+  0 0 nand a     # a is now 1
+  0 a nand       # 0 and 1 nanded is 1
+[1, 1]
+
+creating other gates
+  not
+    a a nand
+  
+  or
+    a not aa
+    b not bb
+    aa bb nand
+
+  1 0 or
+  0 0 or
+  0 not
+[1, 0, 1]
+  
+flip flop
+  # ... other gates defined
+  ff
+    out q q'
+    s q' nor q
+    r q  nor q'
+    # will recurse until next state == last state?
+  
+    
+
+
+
+
+
+
+
