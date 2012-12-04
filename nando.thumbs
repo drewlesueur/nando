@@ -1,0 +1,60 @@
+
+poor_module nando
+  def all_items_are_a_list list
+    reduce list
+      fn memo item
+        and memo
+          is_list item
+      false
+
+  def nand a b
+    not
+      and a b
+
+  obj defs
+    0 0
+    1 1
+    nand nand
+    
+
+  def run lines scope
+    set scope_inputs scope inputs
+    each lines line
+      set words split line space
+      set gate_index index_by words word
+        set value defs word
+        either
+          is_list value
+          is_func value
+      set gate words gate_index
+      set init_names slice words 0 gate_index
+      set outputs_index add 1 gate_index
+      set output_names slice words outputs_index
+      map input_names name
+        if has scope name
+          
+        
+    
+
+  def build_hardware code
+    set parsed tab_expressions code
+    obj scope
+    list lines_to_run
+    each parsed line
+      set line_len len line
+      set line_first first line
+      set line_rest rest line
+      set is_definition
+        and
+          gt1 line_len
+          all_items_are_a_list line_rest
+      if is_definition
+        defs line_first line_rest
+      else
+        push lines_to_run line
+    run lines_to_run scope     
+          
+        
+       
+        
+    
