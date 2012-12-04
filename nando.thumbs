@@ -16,9 +16,16 @@ poor_module nando
     1 1
     nand nand
     
+  def nexter the_list
+    set i 0
+    def next
+      ret the_list i
+      inc i
+      ret
 
   def run lines scope
     set scope_inputs scope inputs
+    set next_scope_input nexter scope_inputs
     each lines line
       set words split line space
       set gate_index index_by words word
@@ -27,11 +34,26 @@ poor_module nando
           is_list value
           is_func value
       set gate words gate_index
-      set init_names slice words 0 gate_index
+      set input_names slice words 0 gate_index
       set outputs_index add 1 gate_index
       set output_names slice words outputs_index
-      map input_names name
+      set inputs map input_names name
         if has scope name
+          scope name
+        else
+          set val next_scope_input
+          scope name val
+      if is_fn gate
+        
+      else
+        set lines2 defs gate
+        obj scope2
+          inputs inputs
+        run lines2 scope2
+        # handle outputs
+
+            
+
           
         
     
