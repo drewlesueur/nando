@@ -1,4 +1,3 @@
-
 poor_module nando
   def all_items_are_a_list list
     reduce list
@@ -10,6 +9,11 @@ poor_module nando
   def nand a b
     not
       and a b
+
+  def nand a b
+    and a b
+    not it
+    list ret it
 
   obj defs
     0 0
@@ -23,40 +27,47 @@ poor_module nando
       inc i
       ret
 
-  def run lines scope
-    set scope_inputs scope inputs
-    set next_scope_input nexter scope_inputs
-    each lines line
-      set words split line space
-      set gate_index index_by words word
+  def run line scope
+    set words split line space
+    set gate_index 
+      index_by words word
         set value defs word
         either
           is_list value
           is_func value
-      set gate words gate_index
-      set input_names slice words 0 gate_index
-      set outputs_index add 1 gate_index
-      set output_names slice words outputs_index
-      set inputs map input_names name
-        if has scope name
-          scope name
-        else
-          set val next_scope_input
-          scope name val
-      if is_fn gate
-        
+    set gate words gate_index
+    set input_names slice words 0 gate_index
+    set outputs_index add 1 gate_index
+    set output_names slice words outputs_index
+    set inputs map input_names name
+      if has scope name
+        scope name
       else
-        set lines2 defs gate
-        obj scope2
-          inputs inputs
-        run lines2 scope2
-        # handle outputs
+        set val next_scope_input
+        scope name val
 
-            
-
-          
-        
+    if is_fn gate
+      set output_values splat gate inputs
+    else
+      set lines2 defs gate
+      obj scope2 inputs inputs
+      set output_values run lines2 scope2
     
+    each output_names name name_index
+      set value output_value name_index
+      scope name value
+    # todo return the right outs depending
+    # on if there is no output var or if the
+    # var was specifically defined as an output
+
+  def run lines scope
+    set scope_inputs scope inputs
+    set next_scope_input nexter scope_inputs
+    list outputs 
+    each lines line
+      
+      set line_outputs run_line line scope
+      push_all outputs line_outputs
 
   def build_hardware code
     set parsed tab_expressions code
